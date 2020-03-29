@@ -28,12 +28,14 @@ class LogisticRegression:
         self.landa = 0.1
         self.theta = np.array([0, 0] * (n + 1))
 
+        self.treshold = 0.5
+
     def sigmoid(self, z):
 
         g = 1 / (1 + np.exp(-z))
         return g
 
-    def cost_function(self):
+    def gradiant_descent(self):
 
         m, n = self.X.shape
         for i in range(self.num_iter):
@@ -47,5 +49,17 @@ class LogisticRegression:
                 val = theta_tmep[j] - self.alpha * (1.0/m) * sum(diff * self.X[:, 0])
                 self.theta[j] = val
             
-            cost = self.cost_function()
-            print('iteration number {0}, cost {1}'.format(i, cost))
+    def predict(self, X):
+
+        x = np.array(X)
+        m, n = x.shape
+
+        x = (x - self.mean) / self.std
+
+        cost = np.array([1] * m).reshape(m, 1)
+
+        pred = self.sigmoid(np.dot(X, self.theta))
+
+        if pred < self.treshold:
+            return 0
+        return 1
