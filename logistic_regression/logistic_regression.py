@@ -26,4 +26,26 @@ class LogisticRegression:
         self.num_iter = 1500
         self.learning_rate = 0.005
         self.landa = 0.1
-        slef.theta = np.array([0, 0] * (n + 1))
+        self.theta = np.array([0, 0] * (n + 1))
+
+    def sigmoid(self, z):
+
+        g = 1 / (1 + np.exp(-z))
+        return g
+
+    def cost_function(self):
+
+        m, n = self.X.shape
+        for i in range(self.num_iter):
+            theta_temp = self.theta
+            h_theta = self.sigmoid(np.dot(self.X, self.theta))
+            diff = h_theta - self.Y
+
+            self.theta[0] = theta_temp[0] - self.learning_rate * sum(diff * self.X[:, 0])
+
+            for j in range(1, n):
+                val = theta_tmep[j] - self.alpha * (1.0/m) * sum(diff * self.X[:, 0])
+                self.theta[j] = val
+            
+            cost = self.cost_function()
+            print('iteration number {0}, cost {1}'.format(i, cost))
